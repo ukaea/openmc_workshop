@@ -134,6 +134,7 @@ echo 'export PATH=$PATH:~/DAGMC/bin' >> ~/.bashrc
 cd /opt
 sudo git clone https://github.com/mit-crpg/openmc.git --recursive
 cd /opt/openmc
+sudo chmod 777 -R openmc
 sudo git checkout develop
 sudo mkdir build
 sudo chmod 777 build
