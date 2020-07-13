@@ -25,6 +25,7 @@ sudo apt-get --yes install libxkbfile1
 sudo apt-get --yes install -f
 sudo apt-get --yes install libblas-dev 
 sudo apt-get --yes install liblapack-dev
+sudo apt-get --yes install libeigen3-dev
 
 # needed to allow NETCDF on MOAB which helps with tet meshes in OpenMC
 sudo apt-get --yes install libnetcdf-dev
@@ -137,7 +138,7 @@ sudo git checkout develop
 sudo mkdir build
 sudo chmod 777 build
 cd build 
-cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
+sudo cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 # cmake -Ddagmc=ON -Ddebug=on -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 sudo make 
 sudo make install
