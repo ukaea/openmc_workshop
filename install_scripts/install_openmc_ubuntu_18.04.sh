@@ -141,8 +141,8 @@ sudo chmod 777 build
 cd build 
 sudo cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 # cmake -Ddagmc=ON -Ddebug=on -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
-sudo make 
-sudo make install
+sudo make -j
+sudo make -j install
 cd /opt/openmc/ 
 sudo python3 setup.py develop --user
 
