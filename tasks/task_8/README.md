@@ -1,11 +1,11 @@
 
 ## <a name="task8"></a>Task 8 - Techniques for sampling parameter space
 
-Google Colab Link: [Task_8](insert google colab link)
+<!-- Google Colab Link: [Task_8](insert google colab link) -->
 
 Please allow 25 minutes for this task.
 
-Expected outputs from this task are in the [presentation](insert presentation list).
+<!-- Expected outputs from this task are in the [presentation](insert presentation list). -->
 
 The aim of this task is to explore sampling techniques for performing simulations across a parameter space of interest.
 A parameter space may be surveyed for several reasons. In the context of tritium breeding, this may be to measure the impact of a parameter on tritium breeding.
