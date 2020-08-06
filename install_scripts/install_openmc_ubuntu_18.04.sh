@@ -106,7 +106,7 @@ make -j install
 
 # if you installed pymoab run these two commands as well
 # cd pymoab
-# python3 setup.py install --user
+# bash install.sh
 
 #needs setting in bashrc
 LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH
