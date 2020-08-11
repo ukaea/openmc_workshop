@@ -60,11 +60,11 @@ The majority of the workshop can also be completed using Google Colab Notebooks 
 
 ### Windows
 
-1. Install Docker Desktop for [windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows). During this install make sure to check the box that adds your user account to the docker-users account otherwise you will require admin writes to launch docker-desktop.
+1. Install Docker Desktop for [windows](https://hub.docker.com/editions/community/docker-ce-desktop-windows). During this install make sure to check the box that adds your user account to the docker-users account otherwise you will require admin rights to launch docker-desktop.
 
 2. Open PowerShell, this can be found by searching the start menu.
 
-3. Ensure Docker Desktop is running and pull the docker image from the store and then type the following command in the PowerShell terminal.
+3. Ensure Docker Desktop is running and pull the docker image from the store and then type the following command in the PowerShell terminal. You may need to change the docker container mode to "linux".
 
     ```docker pull openmcworkshop/workshop```
 
