@@ -167,11 +167,13 @@ OPENMC_CROSS_SECTIONS=~/data/tendl-2017-hdf5/cross_sections.xml
 echo 'export OPENMC_CROSS_SECTIONS=~/data/tendl-2019-hdf5/cross_sections.xml' >> ~/.bashrc
 
 
+# openmc-plotter
 
-RUN git clone https://github.com/openmc-dev/plotter.git
-echo 'export PATH=$PATH:/plotter/' >> ~/.bashrc
-
-
+cd $HOME
+git clone https://github.com/openmc-dev/plotter.git
+cd $HOME/plotter
+pip install .
+echo 'alias openmc-plotter=$HOME/.local/bin/openmc-plotter' >> ~/.bashrc
 
 
 # dependancies for the occ_faceter
