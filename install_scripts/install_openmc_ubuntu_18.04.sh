@@ -3,8 +3,7 @@ sudo apt-get --yes update && sudo apt-get --yes upgrade
 sudo apt-get update
 
 sudo apt-get --yes install gfortran 
-sudo apt-get --yes install g++ 
-sudo apt-get --yes install cmake 
+sudo apt-get --yes install g++  
 sudo apt-get --yes install libhdf5-dev
 
 sudo apt-get install -y python3
