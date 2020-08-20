@@ -116,7 +116,7 @@ echo 'export PATH=$PATH:~/MOAB/bin' >> ~/.bashrc
 cd ~
 mkdir DAGMC
 cd DAGMC
-git clone -b develop https://github.com/svalinn/dagmc
+git clone -b develop https://github.com/svalinn/DAGMC.git
 mkdir build
 cd build
 # cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_EXE=ON
@@ -131,7 +131,7 @@ echo 'export PATH=$PATH:~/DAGMC/bin' >> ~/.bashrc
 
 # OpenMC Install
 cd /opt
-sudo git clone https://github.com/mit-crpg/openmc.git --recursive
+sudo git clone --recurse-submodules https://github.com/openmc-dev/openmc.git 
 cd /opt/openmc
 sudo chmod 777 -R openmc
 sudo git checkout develop
