@@ -191,5 +191,4 @@ mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=..
 make
 make install
-sudo cp /occ_faceter/bin/steps2h5m /bin
 sudo cp /occ_faceter/bin/occ_faceter /bin
