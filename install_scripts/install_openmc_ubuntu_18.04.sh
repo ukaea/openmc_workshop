@@ -3,8 +3,7 @@ sudo apt-get --yes update && sudo apt-get --yes upgrade
 sudo apt-get update
 
 sudo apt-get --yes install gfortran 
-sudo apt-get --yes install g++ 
-sudo apt-get --yes install cmake 
+sudo apt-get --yes install g++  
 sudo apt-get --yes install libhdf5-dev
 
 sudo apt-get install -y python3
@@ -106,7 +105,7 @@ make -j install
 
 # if you installed pymoab run these two commands as well
 # cd pymoab
-# python3 setup.py install --user
+# bash install.sh
 
 #needs setting in bashrc
 LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH
@@ -117,7 +116,7 @@ echo 'export PATH=$PATH:~/MOAB/bin' >> ~/.bashrc
 cd ~
 mkdir DAGMC
 cd DAGMC
-git clone -b develop https://github.com/svalinn/dagmc
+git clone -b develop https://github.com/svalinn/DAGMC.git
 mkdir build
 cd build
 # cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_EXE=ON
@@ -132,14 +131,14 @@ echo 'export PATH=$PATH:~/DAGMC/bin' >> ~/.bashrc
 
 # OpenMC Install
 cd /opt
-sudo git clone https://github.com/mit-crpg/openmc.git --recursive
+sudo git clone --recurse-submodules https://github.com/openmc-dev/openmc.git 
 cd /opt/openmc
 sudo chmod 777 -R openmc
 sudo git checkout develop
 sudo mkdir build
 sudo chmod 777 build
 cd build 
-sudo cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
+cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 # cmake -Ddagmc=ON -Ddebug=on -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 sudo make -j
 sudo make -j install
@@ -167,11 +166,13 @@ OPENMC_CROSS_SECTIONS=~/data/tendl-2017-hdf5/cross_sections.xml
 echo 'export OPENMC_CROSS_SECTIONS=~/data/tendl-2019-hdf5/cross_sections.xml' >> ~/.bashrc
 
 
+# openmc-plotter
 
-RUN git clone https://github.com/openmc-dev/plotter.git
-echo 'export PATH=$PATH:/plotter/' >> ~/.bashrc
-
-
+cd $HOME
+git clone https://github.com/openmc-dev/plotter.git
+cd $HOME/plotter
+pip install .
+echo 'alias openmc-plotter=$HOME/.local/bin/openmc-plotter' >> ~/.bashrc
 
 
 # dependancies for the occ_faceter
