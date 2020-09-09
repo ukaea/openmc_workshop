@@ -184,7 +184,7 @@ sudo apt-get --yes install libocc*dev
 sudo apt-get --yes install occ*
 sudo apt-get --yes install libtbb-dev
 
-# install the occ_faceter, this currently uses a branch that could be merged
+# install the occ_faceter
 cd ~
 git clone https://github.com/makeclean/occ_faceter.git
 cd occ_faceter
@@ -193,3 +193,40 @@ cmake .. -DCMAKE_INSTALL_PREFIX=..
 make
 make install
 sudo cp /occ_faceter/bin/occ_faceter /bin
+
+
+# dependancies for PPP
+sudo apt-get install -y libtbb2 libocct-foundation-7.3 
+sudo apt-get install -y libocct-data-exchange-7.3
+sudo apt-get install -y libocct-modeling-data-7.3
+sudo apt-get install -y libocct-modeling-algorithms-7.3
+sudo apt-get install -y libocct-ocaf-7.3
+cmake -T llvm
+sudo apt-get install -y git
+sudo apt-get install -y cmake
+sudo apt-get install -y doxygen
+sudo apt-get install -y ccache
+sudo apt-get install -y g++
+
+sudo add-apt-repository ppa:freecad-maintainers/freecad-daily
+sudo apt-get update
+sudo apt-get install -y freecad-daily-python3 
+
+sudo apt-get install -y libocct*-dev
+sudo apt-get install -y occt*
+sudo apt-get install -y python3-dev
+sudo apt-get install -y libtbb-dev
+sudo apt-get install -y libx11-dev
+sudo apt-get install -y libxmu-dev
+sudo apt-get install -y libxi-dev
+sudo apt-get install -y libboost-dev
+
+# installs the PPP
+git clone  --recurse-submodules https://git.ccfe.ac.uk/scalable-multiphysics-framework/parallel-preprocessor.git
+cd parallel-preprocessor
+mkdir build
+cd build
+cmake ..
+make -j
+
+# test this ppp install by trying to import ppp from within python, further steps might be needed
