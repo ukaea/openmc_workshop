@@ -190,7 +190,7 @@ git clone https://github.com/makeclean/occ_faceter.git
 cd occ_faceter
 mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=..
-make
+make -j
 make install
 sudo cp /occ_faceter/bin/occ_faceter /bin
 
