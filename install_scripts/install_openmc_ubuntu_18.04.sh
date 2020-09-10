@@ -201,7 +201,6 @@ sudo apt-get install -y libocct-data-exchange-7.3
 sudo apt-get install -y libocct-modeling-data-7.3
 sudo apt-get install -y libocct-modeling-algorithms-7.3
 sudo apt-get install -y libocct-ocaf-7.3
-cmake -T llvm
 sudo apt-get install -y git
 sudo apt-get install -y cmake
 sudo apt-get install -y doxygen
