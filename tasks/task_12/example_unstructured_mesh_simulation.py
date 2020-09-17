@@ -8,7 +8,7 @@ import openmc
 import json
 import os
 from neutronics_material_maker import Material
-from parametric_plasma_source import Plasma
+from parametric_plasma_source import PlasmaSource, SOURCE_SAMPLING_PATH
 
 # MATERIALS using the neutronics material maker
 
@@ -48,15 +48,33 @@ sett.dagmc = True  # this is the openmc command enables use of the dagmc.h5m fil
 
 # creates a source object
 source = openmc.Source()
+
+plasma_params = {
+    "elongation": 2.9,
+    "ion_density_origin": 1.09e20,
+    "ion_density_peaking_factor": 1,
+    "ion_density_pedestal": 1.09e20,
+    "ion_density_separatrix": 3e19,
+    "ion_temperature_origin": 45.9,
+    "ion_temperature_peaking_factor": 8.06,
+    "ion_temperature_pedestal": 6.09,
+    "ion_temperature_separatrix": 0.1,
+    "major_radius": 1.9*100,
+    "minor_radius": 1.118*100,
+    "pedestal_radius": 0.8 *  1.118*100,
+    "plasma_id": 1,
+    "shafranov_shift": 0.44789,
+    "triangularity": 0.270,
+    "ion_temperature_beta": 6,
+}
+
+plasma = PlasmaSource(**plasma_params)
 # this creates a neutron distribution with the shape of a tokamak plasma
-my_plasma = Plasma(elongation=2.9,
-                   minor_radius=1.118*100,
-                   major_radius=1.9*100,
-                   triangularity = 0.55)
-# there are other parameters that can be set for the plasma, but we can use the defaults for now
-my_plasma.export_plasma_source('my_custom_plasma_source.so')
-# sets the source poition, direction and energy with predefined plasma parameters (see source_sampling.cpp)
-source.library = './my_custom_plasma_source.so'
+
+
+source = openmc.Source()
+source.library = SOURCE_SAMPLING_PATH
+source.parameters = str(plasma)
 sett.source = source
 
 
