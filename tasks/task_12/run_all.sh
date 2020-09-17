@@ -11,6 +11,8 @@ rm *.exo
 # this is the same command as above but it avoids loading up the GUI so it could be part of an automatic workflow
 trelis -batch -nographics make_faceteted_neutronics_model.py
 
+# only latest version support -o 
+#make_watertight dagmc_notwatertight.h5m -o dagmc.h5m
 make_watertight dagmc_notwatertight.h5m -o dagmc.h5m
 
 # this makes a volume mesh of the geometry and saves it as a tet_mesh.exo file 
@@ -23,7 +25,7 @@ trelis -batch -nographics make_unstructured_mesh.py
 mbconvert tet_mesh.exo tet_mesh.h5m
 
 # this executes the simulations
-python example_unstructured_mesh_simulation.py
+python3 example_unstructured_mesh_simulation.py
 
 # loads up the tet mesh heating tally for visualization
 paraview tally_1.1000.vtk
