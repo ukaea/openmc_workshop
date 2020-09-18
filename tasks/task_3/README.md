@@ -24,7 +24,9 @@ There are actually three different energy distributions available in the ```1_pl
 
 - Try plotting the Watt and Muir spectra and compare them to the mono-energetic neutron source.
 
-- Try changing the Muir plasma temperature from 20 KeV to 40 KeV.
+- Try plotting the Muir spectra from different temperature plasmas using ```1_plot_neutron_birth_energy_extra.py```
+
+- Try changing the Muir plasma temperature from 20 KeV to 30 KeV.
 
 In the next example the initial neutron birth locations and neutron trajectories for a very basic neutron point source are plotted. Again, this information is accessed from the statepoint file.
 
