@@ -68,7 +68,7 @@ echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashr
 echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
 # echo '$PATH:/openmc/build/bin/' >> ~/.bashrc
 
-pip install cython
+pip3 install cython
 
 # MOAB Install
 cd ~
