@@ -17,4 +17,4 @@ mbconvert dagmc.h5m dagmc.stl
 # optional vtk for visualization
 mbconvert dagmc.h5m dagmc.vtk
 
-python example_CAD_simulation.py
+python3 example_CAD_simulation.py

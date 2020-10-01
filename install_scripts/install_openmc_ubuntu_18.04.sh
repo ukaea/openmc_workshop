@@ -2,38 +2,25 @@
 sudo apt-get --yes update && sudo apt-get --yes upgrade
 sudo apt-get update
 
-sudo apt-get --yes install gfortran 
-sudo apt-get --yes install g++  
-sudo apt-get --yes install libhdf5-dev
-
-sudo apt-get install -y python3
-sudo apt-get install -y python3-pip
-sudo apt-get install -y python3-dev
-sudo apt-get install -y python3-tk
-
-sudo apt-get install --yes imagemagick
-sudo apt-get install --yes hdf5-tools
-sudo apt-get install --yes paraview
-sudo apt-get install --yes eog
-sudo apt-get install --yes wget
-sudo apt-get install --yes libsilo-dev
-sudo apt-get install --yes git
-
-sudo apt-get --yes install dpkg
-sudo apt-get --yes install libxkbfile1
-sudo apt-get --yes install -f
-sudo apt-get --yes install libblas-dev 
-sudo apt-get --yes install liblapack-dev
-sudo apt-get --yes install libeigen3-dev
-
-# needed to allow NETCDF on MOAB which helps with tet meshes in OpenMC
-sudo apt-get --yes install libnetcdf-dev
-sudo apt-get --yes install libnetcdf13
+sudo apt-get --yes install gfortran g++ git
 
 # needed for newest version of openmc with dagmc
 sudo apt remove -y cmake
-pip3 install cmake==3.12.0
+#pip3 install cmake==3.12.0
+# this will install the latet cmake like 3.18
+pip3 install cmake
 
+sudo apt-get install -y python3 python3-pip python3-dev python3-tk
+
+sudo apt-get install --yes imagemagick hdf5-tools  libhdf5-dev wget  libsilo-dev eog
+# use may install latest paraview from other source
+sudo apt-get install --yes paraview
+sudo apt-get --yes install dpkg libxkbfile1libblas-dev liblapack-dev libeigen3-dev
+
+# needed to allow NETCDF on MOAB which helps with tet meshes in OpenMC
+sudo apt-get --yes install libnetcdf-dev libnetcdf13
+
+# all below can be compressed into one line command
 pip3 install numpy --user
 pip3 install pandas --user
 pip3 install six --user
@@ -54,6 +41,7 @@ pip3 install pyside2 --user # required by openmc plotter
 
 # needed for workshop tasks
 pip3 install neutronics_material_maker --user
+pip3 install parametric_plasma_source --user
 
 # Clone and install NJOY2016
 cd ~
@@ -75,11 +63,11 @@ MOAB_INSTALL_DIR=$HOME/MOAB
 DAGMC_INSTALL_DIR=$HOME/DAGMC
 set -ex
 
-echo 'export MOAB_INSTALL_DIR=$HOME/MOAB' >> ~/.bashrc 
-echo 'export DAGMC_INSTALL_DIR=$HOME/DAGMC' >> ~/.bashrc 
-echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc 
-echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc 
-# echo '$PATH:/openmc/build/bin/' >> ~/.bashrc 
+echo 'export MOAB_INSTALL_DIR=$HOME/MOAB' >> ~/.bashrc
+echo 'export DAGMC_INSTALL_DIR=$HOME/DAGMC' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+# echo '$PATH:/openmc/build/bin/' >> ~/.bashrc
 
 pip install cython
 
@@ -88,7 +76,7 @@ cd ~
 mkdir MOAB
 cd MOAB
 git clone -b Version5.1.0 https://bitbucket.org/fathomteam/moab/
-mkdir build 
+mkdir build
 cd build
 # this installs without netcdf but with pymoab
 #cmake ../moab -DENABLE_HDF5=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=$MOAB_INSTALL_DIR -DENABLE_PYMOAB=ON
@@ -109,7 +97,7 @@ make -j install
 
 #needs setting in bashrc
 LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-echo 'export PATH=$PATH:~/MOAB/bin' >> ~/.bashrc 
+echo 'export PATH=$PATH:$MOAB_INSTALL_DIR/bin' >> ~/.bashrce
 
 
 # DAGMC Install
@@ -126,25 +114,25 @@ make -j install
 # rm -rf $HOME/DAGMC/dagmc
 #needs setting in bashrc
 LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-echo 'export PATH=$PATH:~/DAGMC/bin' >> ~/.bashrc 
+echo 'export PATH=$PATH:~/DAGMC/bin' >> ~/.bashrc
 
 
-# OpenMC Install
+# OpenMC Install, this must be installed to /opt/openmc, `parametric_plasma_source` python module has this path hard-coded
 cd /opt
-sudo git clone --recurse-submodules https://github.com/openmc-dev/openmc.git 
+sudo git clone --recurse-submodules https://github.com/openmc-dev/openmc.git
 cd /opt/openmc
 sudo chmod 777 -R openmc
 sudo git checkout develop
 sudo mkdir build
 sudo chmod 777 build
-cd build 
+cd build
 cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 # cmake -Ddagmc=ON -Ddebug=on -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 sudo make -j
 sudo make -j install
-cd /opt/openmc/ 
+cd /opt/openmc/
 sudo python3 setup.py develop --user
-
+# to uninstall in build folder: sudo xargs rm < install_manifest.txt
 
 # Nuclear data install
 cd ~
@@ -176,49 +164,33 @@ echo 'alias openmc-plotter=$HOME/.local/bin/openmc-plotter' >> ~/.bashrc
 
 
 # dependancies for the occ_faceter
-sudo apt-get --yes update && apt-get --yes upgrade
-sudo apt-get --yes install libcgal-dev
 sudo apt-get --yes install software-properties-common
 sudo add-apt-repository -y ppa:freecad-maintainers/freecad-stable
+sudo apt-get --yes update && sudo apt-get --yes upgrade
+
+sudo apt-get --yes install libcgal-dev
+# this libocc*dev can match 7.3 on Ubuntu 18.04 and 7.4 on Ubuntu  20.04
 sudo apt-get --yes install libocc*dev
 sudo apt-get --yes install occ*
-sudo apt-get --yes install libtbb-dev
+sudo apt-get --yes install  libtbb2 libtbb-dev
 
-# install the occ_faceter
+# install the occ_faceter, this currently uses a branch that could be merged
 cd ~
 git clone https://github.com/makeclean/occ_faceter.git
 cd occ_faceter
 mkdir build && cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=..
-make -j
+make
 make install
-sudo cp /occ_faceter/bin/occ_faceter /bin
+# consider installed to $DAGMC_INSTALL_DIR/bin
+#sudo cp ../bin/steps2h5m /bin
+sudo cp ../bin/occ_faceter /bin
 
-
-# dependancies for PPP
-sudo apt-get install -y libtbb2 libocct-foundation-7.3 
-sudo apt-get install -y libocct-data-exchange-7.3
-sudo apt-get install -y libocct-modeling-data-7.3
-sudo apt-get install -y libocct-modeling-algorithms-7.3
-sudo apt-get install -y libocct-ocaf-7.3
-sudo apt-get install -y git
-sudo apt-get install -y cmake
-sudo apt-get install -y doxygen
+# dependancies for PPP, in addition to occ_faceter
 sudo apt-get install -y ccache
-sudo apt-get install -y g++
 
-sudo add-apt-repository ppa:freecad-maintainers/freecad-daily
-sudo apt-get update
-sudo apt-get install -y freecad-daily-python3 
-
-sudo apt-get install -y libocct*-dev
-sudo apt-get install -y occt*
-sudo apt-get install -y python3-dev
-sudo apt-get install -y libtbb-dev
-sudo apt-get install -y libx11-dev
-sudo apt-get install -y libxmu-dev
-sudo apt-get install -y libxi-dev
-sudo apt-get install -y libboost-dev
+# those are not used by ppp, however indirect dependancies
+sudo apt-get install -y libx11-dev  libxmu-dev libxi-dev libboost-dev
 
 # installs the PPP
 git clone  --recurse-submodules https://git.ccfe.ac.uk/scalable-multiphysics-framework/parallel-preprocessor.git

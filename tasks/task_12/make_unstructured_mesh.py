@@ -77,7 +77,7 @@ input_locations = []
 for entry in data:
     if 'mesh' in entry.keys():
         input_locations.append(entry)
-geometry_details = find_number_of_volumes_in_each_step_file(input_locations, '/home/shimwell/openmc_workshop/tasks/task_12/')
+geometry_details = find_number_of_volumes_in_each_step_file(input_locations, './')
 
 imprint_and_merge_geometry()
 
@@ -99,7 +99,7 @@ for entry in geometry_details:
 
 
 cubit.cmd('export mesh "tet_mesh.exo" overwrite')
-# cubit.cmd('export abaqus "tet_mesh.inp" overwrite') # asci format, not goood for large meshes
+cubit.cmd('export abaqus "tet_mesh.inp" overwrite') # asci format, not goood for large meshes
 # cubit.cmd('save as "tet_mesh.cub" overwrite') # mbconvert code is older than the exo equivilent
 
 print('unstrutured mesh saved as tet_mesh.exo')
