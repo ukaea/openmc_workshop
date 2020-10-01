@@ -8,8 +8,7 @@ sudo apt-get install -y python3 python3-pip python3-dev python3-tk
 
 # needed for newest version of openmc with dagmc
 sudo apt remove -y cmake
-#pip3 install cmake==3.12.0
-# this will install the latet cmake like 3.18
+# this will install the latet cmake which is newer than the Ubuntu 18 apt-get distribution (needed for openmc)
 pip3 install cmake
 
 sudo apt-get install --yes imagemagick hdf5-tools  libhdf5-dev wget  libsilo-dev eog
