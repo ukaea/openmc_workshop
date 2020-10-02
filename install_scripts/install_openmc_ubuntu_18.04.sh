@@ -130,7 +130,9 @@ cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 sudo make -j
 sudo make -j install
 cd /opt/openmc/
-
+cd /opt
+sudo chmod 777 -R openmc
+cd /opt/openmc/
 sudo python3 setup.py develop --user
 # pip can be used instead
 # pip install -e .
