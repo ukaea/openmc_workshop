@@ -96,7 +96,7 @@ make -j install
 
 #needs setting in bashrc
 LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-echo 'export PATH=$PATH:$MOAB_INSTALL_DIR/bin' >> ~/.bashrce
+echo 'export PATH=$PATH:$MOAB_INSTALL_DIR/bin' >> ~/.bashrc
 
 
 # DAGMC Install
