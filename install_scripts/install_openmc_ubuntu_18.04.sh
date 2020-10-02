@@ -14,7 +14,7 @@ pip3 install cmake
 sudo apt-get install --yes imagemagick hdf5-tools  libhdf5-dev wget  libsilo-dev eog
 # use may install latest paraview from other source
 sudo apt-get install --yes paraview
-sudo apt-get --yes install dpkg libxkbfile1libblas-dev liblapack-dev libeigen3-dev
+sudo apt-get --yes install dpkg libxkbfile1 libblas-dev -f liblapack-dev libeigen3-dev
 
 # needed to allow NETCDF on MOAB which helps with tet meshes in OpenMC
 sudo apt-get --yes install libnetcdf-dev libnetcdf13
