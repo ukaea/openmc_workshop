@@ -130,8 +130,11 @@ cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 sudo make -j
 sudo make -j install
 cd /opt/openmc/
+
 sudo python3 setup.py develop --user
-# to uninstall in build folder: sudo xargs rm < install_manifest.txt
+# pip can be used instead
+# pip install -e .
+
 
 # Nuclear data install
 cd ~
