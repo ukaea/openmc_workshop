@@ -133,9 +133,10 @@ cd /opt/openmc/
 cd /opt
 sudo chmod 777 -R openmc
 cd /opt/openmc/
-sudo python3 setup.py develop --user
-# pip can be used instead
-# pip install -e .
+pip install -e .
+# setup.py can be used instead but it doesn't appear to install to conda enviroments
+# sudo python3 setup.py develop --user
+
 
 
 # Nuclear data install
