@@ -1,7 +1,8 @@
 
 
 # rm -r  manifest_processed
-# part of a package that is not currently opensource, this produces the brep file below
+# Use the geomPipeline.py script from PPP to make the brep file
+# PPP is avaialbe here https://github.com/ukaea/parallel-preprocessor
 # geomPipeline.py manifest.json
 
 rm dagmc_notwatertight.h5m
