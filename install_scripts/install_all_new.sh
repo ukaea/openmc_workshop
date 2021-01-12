@@ -90,6 +90,7 @@ cmake ../moab -DENABLE_HDF5=ON -DENABLE_NETCDF=ON -DENABLE_BLASLAPACK=OFF -DBUIL
 make -j4
 make -j4 install
 cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABLE_BLASLAPACK=OFF -DENABLE_FORTRAN=OFF -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
+# make -j4
 make -j4 install
 cd pymoab
 
@@ -102,6 +103,12 @@ export PYTHONPATH="$PYMOAB_INSTALL_PREFIX:$PYTHONPATH"
 $HOME/miniconda3/envs/cqmaster/bin/python setup.py install --prefix=$HOME/MOAB --record $HOME/MOAB/lib/python3.8/site-packages/install_files.txt
 
 python setup.py install
+
+# As it stands, this will install MOAB and pymoab, but moab is no longer in /usr/local, meaning -DMOAB_DIR has been changed to $HOME/MOAB below
+# This could be because we have removed the second make -j4, i.e. we go straight to make -j4 install - test this as this would prevent us having to redefine -DMOAB_DIR
+# Also, all existence of ~ has been removed, and replaced by $HOME. In some cmake commands ~ wasn't being recognised, but not all.
+# This is potentially another reason for MOAB maybe being installed in a different place than expected
+# Test script again with these changes/options
 
 
 # Clone and install Double-Down
