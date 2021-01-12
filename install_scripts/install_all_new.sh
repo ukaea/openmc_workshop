@@ -86,11 +86,11 @@ cd MOAB
 mkdir build
 git clone --single-branch --branch develop https://bitbucket.org/fathomteam/moab/
 cd build
-cmake ../moab -DENABLE_HDF5=ON -DENABLE_NETCDF=ON -DBUILD_SHARED_LIBS=OFF -DENABLE_FORTRAN=OFF -DENABLE_BLASLAPACK=OFF
+cmake ../moab -DENABLE_HDF5=ON -DENABLE_NETCDF=ON -DBUILD_SHARED_LIBS=OFF -DENABLE_FORTRAN=OFF -DENABLE_BLASLAPACK=OFF -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
 sudo make -j4
 sudo make -j4 install
 sudo rm -rf *   # deletes previous cmake files so next cmake command takes effect
-cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABLE_FORTRAN=OFF -DENABLE_BLASLAPACK=OFF
+cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABLE_FORTRAN=OFF -DENABLE_BLASLAPACK=OFF -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
 sudo make -j4
 sudo make -j4 install
 
