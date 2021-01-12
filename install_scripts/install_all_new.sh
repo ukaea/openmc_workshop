@@ -79,6 +79,7 @@ sudo make -j4 install
 
 
 # Clone and install MOAB
+# If installation is not correct, delete parent MOAB directory (this also deletes lib folder) - don't just delete build directory
 
 cd ~
 pip install --upgrade numpy cython
@@ -94,10 +95,6 @@ sudo rm -rf *   # deletes previous cmake files so next cmake command takes effec
 cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABLE_FORTRAN=OFF -DENABLE_BLASLAPACK=OFF -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
 sudo make -j4
 sudo make -j4 install
-
-# PYTHONPATH is suggested to be specified
-# May need -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
-# If try to pip install -e ., i.e. a manual install of pymoab, get permissioning errors
 
 
 # Clone and install Double-Down
