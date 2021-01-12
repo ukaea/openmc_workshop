@@ -86,20 +86,20 @@ cd MOAB
 mkdir build
 git clone  --single-branch --branch develop https://bitbucket.org/fathomteam/moab/
 cd build
-cmake ../moab -DENABLE_HDF5=ON -DENABLE_NETCDF=ON -DENABLE_BLASLAPACK=OFF -DBUILD_SHARED_LIBS=OFF -DENABLE_FORTRAN=OFF -DCMAKE_INSTALL_PREFIX=~/MOAB
+cmake ../moab -DENABLE_HDF5=ON -DENABLE_NETCDF=ON -DENABLE_BLASLAPACK=OFF -DBUILD_SHARED_LIBS=OFF -DENABLE_FORTRAN=OFF -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
 make -j4
 make -j4 install
-cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABLE_BLASLAPACK=OFF -DENABLE_FORTRAN=OFF -DCMAKE_INSTALL_PREFIX=~/MOAB
+cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABLE_BLASLAPACK=OFF -DENABLE_FORTRAN=OFF -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
 make -j4 install
 cd pymoab
 
 # The following is essentially the single line commands of install.sh (can use this file for reference)
 
-PYMOAB_INSTALL_PREFIX=~/MOAB/lib/python3.8/site-packages
+PYMOAB_INSTALL_PREFIX=$HOME/MOAB/lib/python3.8/site-packages
 export PYTHONPATH="$PYMOAB_INSTALL_PREFIX:$PYTHONPATH"
 
 # sometimes, this following command doesn't work first time
-~/miniconda3/envs/cqmaster/bin/python setup.py install --prefix=~/MOAB --record ~/MOAB/lib/python3.8/site-packages/install_files.txt
+$HOME/miniconda3/envs/cqmaster/bin/python setup.py install --prefix=$HOME/MOAB --record $HOME/MOAB/lib/python3.8/site-packages/install_files.txt
 
 python setup.py install
 
@@ -112,7 +112,7 @@ cd double-down
 mkdir build
 cd build
 # cmake .. -DCMAKE_INSTALL_PREFIX=.. -DMOAB_DIR=/usr/local -DEMBREE_DIR=~/embree/lib/cmake/embree-3.12.1
-cmake .. -DCMAKE_INSTALL_PREFIX=.. -DMOAB_DIR=~/MOAB -DEMBREE_DIR=~/embree/lib/cmake/embree-3.12.1
+cmake .. -DCMAKE_INSTALL_PREFIX=.. -DMOAB_DIR=$HOME/MOAB -DEMBREE_DIR=$HOME/embree/lib/cmake/embree-3.12.1
 sudo make -j4
 sudo make -j4 install
 
@@ -126,7 +126,7 @@ git clone -b develop https://github.com/svalinn/dagmc
 mkdir build
 cd build
 # cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=~/DAGMC -DMOAB_DIR=/usr/local
-cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=~/DAGMC -DMOAB_DIR=~/MOAB
+cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$HOME/DAGMC -DMOAB_DIR=$HOME/MOAB
 sudo make -j4 install
 # rm -rf ~/DAGMC/dagmc ~/DAGMC/build   # don't know why these are deleted as need to point to build directory during OpenMC compile
 
@@ -139,7 +139,7 @@ sudo chmod -R 777 openmc
 cd /opt/openmc
 mkdir build
 cd build
-cmake -Doptimize=on -Ddagmc=ON -DDAGMC_DIR=~/DAGMC/build -DHDF5_PREFER_PARALLEL=off ..
+cmake -Doptimize=on -Ddagmc=ON -DDAGMC_DIR=$HOME/DAGMC/build -DHDF5_PREFER_PARALLEL=off ..
 sudo make -j4
 sudo make -j4 install
 cd ..
