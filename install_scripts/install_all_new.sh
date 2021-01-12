@@ -125,7 +125,8 @@ cd DAGMC
 git clone -b develop https://github.com/svalinn/dagmc
 mkdir build
 cd build
-cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=~/DAGMC -DMOAB_DIR=/usr/local
+# cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=~/DAGMC -DMOAB_DIR=/usr/local
+cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=~/DAGMC -DMOAB_DIR=~/MOAB
 sudo make -j4 install
 # rm -rf ~/DAGMC/dagmc ~/DAGMC/build   # don't know why these are deleted as need to point to build directory during OpenMC compile
 
