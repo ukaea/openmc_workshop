@@ -111,7 +111,8 @@ git clone https://github.com/pshriwise/double-down
 cd double-down
 mkdir build
 cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=.. -DMOAB_DIR=/usr/local -DEMBREE_DIR=~/embree/lib/cmake/embree-3.12.1
+# cmake .. -DCMAKE_INSTALL_PREFIX=.. -DMOAB_DIR=/usr/local -DEMBREE_DIR=~/embree/lib/cmake/embree-3.12.1
+cmake .. -DCMAKE_INSTALL_PREFIX=.. -DMOAB_DIR=~/MOAB -DEMBREE_DIR=~/embree/lib/cmake/embree-3.12.1
 sudo make -j4
 sudo make -j4 install
 
