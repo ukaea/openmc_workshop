@@ -79,22 +79,30 @@ sudo make -j4 install
 
 
 # Clone and install MOAB
-# If installation is not correct, delete parent MOAB directory (this also deletes lib folder) - don't just delete build directory
 
 cd ~
 pip install --upgrade numpy cython
 mkdir MOAB
 cd MOAB
 mkdir build
-git clone --single-branch --branch develop https://bitbucket.org/fathomteam/moab/
+git clone  --single-branch --branch develop https://bitbucket.org/fathomteam/moab/
 cd build
-cmake ../moab -DENABLE_HDF5=ON -DENABLE_NETCDF=ON -DBUILD_SHARED_LIBS=OFF -DENABLE_FORTRAN=OFF -DENABLE_BLASLAPACK=OFF -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
-sudo make -j4
-sudo make -j4 install
-sudo rm -rf *   # deletes previous cmake files so next cmake command takes effect
-cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABLE_FORTRAN=OFF -DENABLE_BLASLAPACK=OFF -DCMAKE_INSTALL_PREFIX=$HOME/MOAB
-sudo make -j4
-sudo make -j4 install
+cmake ../moab -DENABLE_HDF5=ON -DENABLE_NETCDF=ON -DENABLE_BLASLAPACK=OFF -DBUILD_SHARED_LIBS=OFF -DENABLE_FORTRAN=OFF -DCMAKE_INSTALL_PREFIX=~/MOAB
+make -j4
+make -j4 install
+cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABLE_BLASLAPACK=OFF -DENABLE_FORTRAN=OFF -DCMAKE_INSTALL_PREFIX=~/MOAB
+make -j4 install
+cd pymoab
+
+# The following is essentially the single line commands of install.sh (can use this file for reference)
+
+PYMOAB_INSTALL_PREFIX=~/MOAB/lib/python3.8/site-packages
+export PYTHONPATH="$PYMOAB_INSTALL_PREFIX:$PYTHONPATH"
+
+# sometimes, this following command doesn't work first time
+~/miniconda3/envs/cqmaster/bin/python setup.py install --prefix=~/MOAB --record ~/MOAB/lib/python3.8/site-packages/install_files.txt
+
+python setup.py install
 
 
 # Clone and install Double-Down
