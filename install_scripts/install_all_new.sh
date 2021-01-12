@@ -64,6 +64,7 @@ cmake -Dstatic=on ..
 sudo make 2>/dev/null
 sudo make install
 
+export PATH=$PATH:/opt/NJOY2016
 
 # Clone and install Embree
 
