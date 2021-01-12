@@ -14,8 +14,7 @@
 # conda activate cqmaster
 # conda clean --all
 
-# environment will be initialised with Python 3.9.X
-# Need to downgrade Python to be compatible with CadQuery
+# Install specific version of python (not required)
 
 # conda install -c conda-forge -c python python=3.8.5
 # conda clean --all
