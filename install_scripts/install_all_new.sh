@@ -63,7 +63,7 @@ cmake -Dstatic=on ..
 sudo make 2>/dev/null
 sudo make install
 
-export PATH=$PATH:/opt/NJOY2016
+echo "export PATH=$PATH:/opt/NJOY2016/build" >> ~/.bashrc
 
 # Clone and install Embree
 
