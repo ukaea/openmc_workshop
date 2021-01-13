@@ -73,7 +73,7 @@ cd embree
 mkdir build
 cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=.. -DEMBREE_ISPC_SUPPORT=OFF
-sudo make -j4
+make -j4
 sudo make -j4 install
 
 
@@ -104,12 +104,6 @@ $HOME/miniconda3/envs/cqmaster/bin/python setup.py install --prefix=$HOME/MOAB -
 
 python setup.py install
 
-# As it stands, this will install MOAB and pymoab, but moab is no longer in /usr/local, meaning -DMOAB_DIR has been changed to $HOME/MOAB below
-# This could be because we have removed the second make -j4, i.e. we go straight to make -j4 install - test this as this would prevent us having to redefine -DMOAB_DIR
-# Also, all existence of ~ has been removed, and replaced by $HOME. In some cmake commands ~ wasn't being recognised, but not all.
-# This is potentially another reason for MOAB maybe being installed in a different place than expected
-# Test script again with these changes/options
-
 
 # Clone and install Double-Down
 
@@ -120,8 +114,8 @@ mkdir build
 cd build
 # cmake .. -DCMAKE_INSTALL_PREFIX=.. -DMOAB_DIR=/usr/local -DEMBREE_DIR=~/embree/lib/cmake/embree-3.12.1
 cmake .. -DCMAKE_INSTALL_PREFIX=.. -DMOAB_DIR=$HOME/MOAB -DEMBREE_DIR=$HOME/embree/lib/cmake/embree-3.12.1
-sudo make -j4
-sudo make -j4 install
+make -j4
+make -j4 install
 
 
 # Clone and install DAGMC
@@ -134,7 +128,7 @@ mkdir build
 cd build
 # cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=~/DAGMC -DMOAB_DIR=/usr/local
 cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$HOME/DAGMC -DMOAB_DIR=$HOME/MOAB
-sudo make -j4 install
+make -j4 install
 # rm -rf ~/DAGMC/dagmc ~/DAGMC/build   # don't know why these are deleted as need to point to build directory during OpenMC compile
 
 
@@ -147,7 +141,7 @@ cd /opt/openmc
 mkdir build
 cd build
 cmake -Doptimize=on -Ddagmc=ON -DDAGMC_DIR=$HOME/DAGMC/build -DHDF5_PREFER_PARALLEL=off ..
-sudo make -j4
+make -j4
 sudo make -j4 install
 cd ..
 # pip install -e .[test]
@@ -163,7 +157,7 @@ git checkout develop
 mkdir build
 cd build
 cmake .. -DOPENMC_DIR=/opt/openmc
-sudo make
+make
 cd ..
 pip install -e .
 
