@@ -1,3 +1,6 @@
+# OUTDATED
+# This script installs Miniconda, CadQuery, NJOY, MOAB, Embree, Double-Down, DAGMC, OpenMC, Nuclear Data.
+
 
 sudo apt-get --yes update && sudo apt-get --yes upgrade 
 sudo apt-get update

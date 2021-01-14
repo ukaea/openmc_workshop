@@ -1,3 +1,5 @@
+# OUTDATED
+# This script installs Miniconda, Python, CadQuery, NJOY, MOAB, DAGMC, OpenMC, Trelis, DAGMC-Trelis plugin, nuclear data
 
 sudo apt-get --yes update && sudo apt-get --yes upgrade 
 sudo apt-get update
