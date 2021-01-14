@@ -1,11 +1,13 @@
 
-# Script which installs Miniconda, Python, Cadquery, NJOY, Embree, Double-down, DAGMC, OpenMC 
-# Should also install pymoab
+# This script installs [Miniconda3, Python 3.8.5, CadQuery=master](require manual installation), NJOY, Embree, MOAB, Double-down,
+# Pymoab, DAGMC, OpenMC, Parametric plasma source, Neutronics material maker, ENDF nuclear data, Windowed Multipole data.
+
 
 # Install Miniconda3
 
-# Download Miniconda3 Linux 64-bit for Python 3.8 from this link https://docs.conda.io/en/latest/miniconda.html
+# Download Miniconda3 for Linux from this website: https://docs.conda.io/en/latest/miniconda.html
 
+# cd ~/Downloads
 # bash Miniconda3-latest-Linux-x86_64.sh
 
 # Run conda init to initialise conda
@@ -15,6 +17,8 @@
 # conda clean --all
 
 # Install specific version of python (not required)
+# CadQuery=master requires Python >3.8
+# Cadquery=2 requires Python <3.8
 
 # conda install -c conda-forge -c python python=3.8.5
 # conda clean --all
@@ -94,15 +98,12 @@ cmake ../moab -DBUILD_SHARED_LIBS=ON -DENABLE_HDF5=ON -DENABLE_PYMOAB=ON -DENABL
 make -j4 install
 cd pymoab
 
-# The following is essentially the single line commands of install.sh (can use this file for reference)
+# The following commands are taken from $HOME/MOAB/build/pymoab/install.sh (use as reference)
 
-PYMOAB_INSTALL_PREFIX=$HOME/MOAB/lib/python3.8/site-packages
-export PYTHONPATH="$PYMOAB_INSTALL_PREFIX:$PYTHONPATH"
-
-# sometimes, this following command doesn't work first time
-$HOME/miniconda3/envs/cqmaster/bin/python setup.py install --prefix=$HOME/MOAB --record $HOME/MOAB/lib/python3.8/site-packages/install_files.txt
-
-python setup.py install
+# PYMOAB_INSTALL_PREFIX=$HOME/MOAB/lib/python3.8/site-packages
+# export PYTHONPATH="$PYMOAB_INSTALL_PREFIX:$PYTHONPATH"
+# $HOME/miniconda3/envs/cqmaster/bin/python setup.py install --prefix=$HOME/MOAB --record $HOME/MOAB/lib/python3.8/site-packages/install_files.txt
+# python setup.py install
 
 
 # Clone and install Double-Down
@@ -168,3 +169,13 @@ cd ~
 git clone https://github.com/openmc-dev/data.git
 cd data
 python3 convert_nndc71.py
+python3 convert_tendl.py
+python3 convert_fendl.py 
+
+echo "export OPENMC_CROSS_SECTIONS=$HOME/data/nndc-b7.1-hdf5/cross_sections.xml" >> ~/.bashrc
+
+# Windowed multipole data - by default, OpenMC looks in / directory for this data
+# cd ~
+# wget https://github.com/mit-crpg/WMP_Library/releases/download/v1.1/WMP_Library_v1.1.tar.gz
+# tar -xf WMP_Library_v1.1.tar.gz
+# sudo mv WMP_Library /
