@@ -1,10 +1,8 @@
 
 sudo apt-get --yes update && sudo apt-get --yes upgrade
-sudo apt-get update
 
 sudo apt-get --yes install gfortran 
 sudo apt-get --yes install g++ 
-sudo apt-get --yes install cmake 
 sudo apt-get --yes install libhdf5-dev
 
 sudo apt-get install -y python3
@@ -31,8 +29,8 @@ sudo apt-get --yes install libnetcdf-dev
 sudo apt-get --yes install libnetcdf13
 
 # needed for newest version of openmc with dagmc
-sudo apt remove -y cmake
-pip3 install cmake==3.12.0
+pip3 install cmake
+echo "export PATH=$PATH:$HOME/.local/bin" >> ~/.bashrc
 
 pip3 install numpy --user
 pip3 install pandas --user
@@ -78,11 +76,9 @@ set -ex
 
 echo 'export MOAB_INSTALL_DIR=$HOME/MOAB' >> ~/.bashrc 
 echo 'export DAGMC_INSTALL_DIR=$HOME/DAGMC' >> ~/.bashrc 
-echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc 
-echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc 
 # echo '$PATH:/openmc/build/bin/' >> ~/.bashrc 
 
-pip install cython
+pip3 install cython
 
 # MOAB Install
 cd ~
@@ -109,36 +105,35 @@ make -j install
 # python3 setup.py install --user
 
 #needs setting in bashrc
-LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-echo 'export PATH=$PATH:~/MOAB/bin' >> ~/.bashrc 
+echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+echo 'export PATH=$PATH:$MOAB_INSTALL_DIR/bin' >> ~/.bashrc 
 
 
 # DAGMC Install
 cd ~
 mkdir DAGMC
 cd DAGMC
-git clone -b develop https://github.com/svalinn/dagmc
+git clone -b develop https://github.com/svalinn/DAGMC.git
 mkdir build
 cd build
 # cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR -DBUILD_SHARED_LIBS=OFF -DBUILD_STATIC_EXE=ON
 # cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR -DBUILD_STATIC_LIBS=OFF
-cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR
-make -j install
+cmake ../DAGMC -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR
+make -j 4 install
 # rm -rf $HOME/DAGMC/dagmc
 #needs setting in bashrc
-LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-echo 'export PATH=$PATH:~/DAGMC/bin' >> ~/.bashrc 
+echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc 
 
 
 # OpenMC Install
 cd /opt
-sudo git clone https://github.com/mit-crpg/openmc.git --recursive
+sudo git clone --recurse-submodules https://github.com/openmc-dev/openmc.git
 cd /opt/openmc
 sudo git checkout develop
 sudo mkdir build
 sudo chmod 777 build
 cd build 
-cmake -Doptimize=on -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
+cmake -Doptimize=on -Ddagmc=ON -DCMAKE_PREFIX_PATH=$DAGMC_INSTALL_DIR ..
 # cmake -Ddagmc=ON -Ddebug=on -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 sudo make 
 sudo make install
@@ -167,8 +162,9 @@ echo 'export OPENMC_CROSS_SECTIONS=~/data/tendl-2019-hdf5/cross_sections.xml' >>
 
 
 
-RUN git clone https://github.com/openmc-dev/plotter.git
-echo 'export PATH=$PATH:/plotter/' >> ~/.bashrc
+RUN cd $HOME && git clone https://github.com/openmc-dev/plotter.git \
+	&& pip3 install . --user
+
 
 
 

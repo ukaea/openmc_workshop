@@ -2,7 +2,6 @@
 # This script installs Miniconda, Python, CadQuery, NJOY, MOAB, DAGMC, OpenMC, Trelis, DAGMC-Trelis plugin, nuclear data
 
 sudo apt-get --yes update && sudo apt-get --yes upgrade 
-sudo apt-get update
 
 sudo apt-get install --yes wget
 
@@ -18,14 +17,8 @@ sudo apt-get install --yes wget
 # conda clean --all
 # conda install -c conda-forge -c cadquery cadquery=2
 
-
-sudo apt-get --yes update && sudo apt-get --yes upgrade
-sudo apt-get update
-
-
 sudo apt-get --yes install gfortran 
-sudo apt-get --yes install g++ 
-sudo apt-get --yes install cmake 
+sudo apt-get --yes install g++
 sudo apt-get --yes install libhdf5-dev
 
 sudo apt-get install -y python3
@@ -51,9 +44,8 @@ sudo apt-get install libeigen3-dev
 sudo apt-get --yes install libnetcdf-dev
 sudo apt-get --yes install libnetcdf13
 
-sudo apt remove -y cmake
 pip3 install cmake
-# need cmake version 3.18.2
+echo "export PATH=$PATH:$HOME/.local/bin" >> ~/.bashrc
 
 pip3 install numpy pandas six h5py Matplotlib uncertainties lxml scipy cython vtk pytest
 pip3 install codecov pytest-cov pylint plotly tqdm pyside2 ghalton==0.6.1
@@ -73,9 +65,7 @@ DAGMC_INSTALL_DIR=$HOME/DAGMC
 set -ex
 
 echo 'export MOAB_INSTALL_DIR=$HOME/MOAB' >> ~/.bashrc 
-echo 'export DAGMC_INSTALL_DIR=$HOME/DAGMC' >> ~/.bashrc 
-echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc 
-echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+echo 'export DAGMC_INSTALL_DIR=$HOME/DAGMC' >> ~/.bashrc
 
 pip3 install cython
 
@@ -90,27 +80,27 @@ cd build
 # this installs with netcdf but without pymoab
 cmake ../moab -DENABLE_HDF5=ON -DENABLE_MPI=off -DENABLE_NETCDF=ON -DBUILD_SHARED_LIBS=ON -DCMAKE_INSTALL_PREFIX=$MOAB_INSTALL_DIR
 make -j2 
-make -j install
+make -j2 install
 # this 2nd build is required which is a shame
 # this is to be used if you want pymoab
 # cmake ../moab -DBUILD_SHARED_LIBS=OFF
 # otherwise if you want netcdf
 cmake ../moab -DBUILD_SHARED_LIBS=OFF
-make -j install
+make -j2 install
 
-LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-echo 'export PATH=$PATH:~/MOAB/bin' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+echo 'export PATH=$PATH:$MOAB_INSTALL_DIR/bin' >> ~/.bashrc
 
 cd ~
 mkdir DAGMC
 cd DAGMC 
-git clone -b develop https://github.com/svalinn/dagmc
+git clone -b develop https://github.com/svalinn/DAGMC.git
 mkdir build
 cd build
-cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR
-make -j install
-LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-echo 'export PATH=$PATH:~/DAGMC/bin' >> ~/.bashrc
+cmake ../DAGMC -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR
+make -j2 install
+
+echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
 
 # OpenMC Install, this must be installed to /opt/openmc, `parametric_plasma_source` python module has this path hard-coded
 cd /opt
@@ -121,14 +111,14 @@ sudo git checkout develop
 sudo mkdir build
 sudo chmod 777 build
 cd build
-cmake -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
+cmake -Ddagmc=ON -DCMAKE_PREFIX_PATH=$DAGMC_INSTALL_DIR ..
 # cmake -Ddagmc=ON -Ddebug=on -DDAGMC_ROOT=$DAGMC_INSTALL_DIR ..
 sudo make -j2
-sudo make -j install
+sudo make -j2 install
 cd /opt
 sudo chmod 777 -R openmc
 cd /opt/openmc/
-pip install -e .
+pip3 install -e .
 
 cd ~
 git clone https://github.com/openmc-dev/data.git
