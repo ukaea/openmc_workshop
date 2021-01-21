@@ -182,4 +182,4 @@ python data/convert_nndc71.py
 python data/convert_tendl.py
 python data/data/combine_libraries.py -l data/nndc-b7.1-hdf5/cross_sections.xml data/tendl-2019-hdf5/cross_sections.xml -o data/cross_sections.xml
 OPENMC_CROSS_SECTIONS=~/data/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS=~/data/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS=~/data/cross_sections.xml" >> ~/.bashrc

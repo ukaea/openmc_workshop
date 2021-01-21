@@ -64,8 +64,8 @@ MOAB_INSTALL_DIR=$HOME/MOAB
 DAGMC_INSTALL_DIR=$HOME/DAGMC
 set -ex
 
-echo 'export MOAB_INSTALL_DIR=$HOME/MOAB' >> ~/.bashrc 
-echo 'export DAGMC_INSTALL_DIR=$HOME/DAGMC' >> ~/.bashrc
+echo "export MOAB_INSTALL_DIR=$HOME/MOAB" >> ~/.bashrc 
+echo "export DAGMC_INSTALL_DIR=$HOME/DAGMC" >> ~/.bashrc
 
 pip3 install cython
 
@@ -88,8 +88,8 @@ make -j2 install
 cmake ../moab -DBUILD_SHARED_LIBS=OFF
 make -j2 install
 
-echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
-echo 'export PATH=$PATH:$MOAB_INSTALL_DIR/bin' >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
+echo "export PATH=$PATH:$MOAB_INSTALL_DIR/bin" >> ~/.bashrc
 
 cd ~
 mkdir DAGMC
@@ -100,7 +100,7 @@ cd build
 cmake ../DAGMC -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB_DIR=$MOAB_INSTALL_DIR
 make -j2 install
 
-echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
 
 # OpenMC Install, this must be installed to /opt/openmc, `parametric_plasma_source` python module has this path hard-coded
 cd /opt
@@ -128,11 +128,11 @@ python3 convert_tendl.py
 python3 convert_nndc71.py
 
 OPENMC_CROSS_SECTIONS_NNDC=~/data/nndc-b7.1-hdf5/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS_NNDC=~/data/nndc-b7.1-hdf5/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS_NNDC=~/data/nndc-b7.1-hdf5/cross_sections.xml" >> ~/.bashrc
 OPENMC_CROSS_SECTIONS_TENDL=~/data/tendl-2017-hdf5/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS_TENDL=~/data/tendl-2019-hdf5/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS_TENDL=~/data/tendl-2019-hdf5/cross_sections.xml" >> ~/.bashrc
 OPENMC_CROSS_SECTIONS_FENDL=~/data/fendl-3.1d-hdf5/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS_FENDL=~/data/fendl-3.1d-hdf5/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS_FENDL=~/data/fendl-3.1d-hdf5/cross_sections.xml" >> ~/.bashrc
 
 
 # OPENMC_CROSS_SECTION library
@@ -141,7 +141,7 @@ echo 'export OPENMC_CROSS_SECTIONS_FENDL=~/data/fendl-3.1d-hdf5/cross_sections.x
 
 # change filepaths to desired library cross_sections.xml file
 OPENMC_CROSS_SECTIONS=~/data/nndc-b7.1-hdf5/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS=~/data/nndc-b7.1-hdf5/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS=~/data/nndc-b7.1-hdf5/cross_sections.xml" >> ~/.bashrc
 
 # Combined cross-section library
 
@@ -176,7 +176,7 @@ cd /opt/Trelis-16.5/bin
 sudo bash plugins/svalinn/install.sh
 
 PATH=$PATH:/opt/Trelis-16.5/bin
-echo 'export PATH=$PATH:/opt/Trelis-16.5/bin' >> ~/.bashrc
+echo "export PATH=$PATH:/opt/Trelis-16.5/bin" >> ~/.bashrc
 
 LD_LIBRARY_PATH=/opt/Trelis-16.5/bin/plugins/svalinn:$LD_LIBRARY_PATH
-echo 'export LD_LIBRARY_PATH=/opt/Trelis-16.5/bin/plugins/svalinn:$LD_LIBRARY_PATH' >> ~/.bashrc
+echo "export LD_LIBRARY_PATH=/opt/Trelis-16.5/bin/plugins/svalinn:$LD_LIBRARY_PATH" >> ~/.bashrc

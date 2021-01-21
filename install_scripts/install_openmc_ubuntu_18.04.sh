@@ -74,8 +74,8 @@ MOAB_INSTALL_DIR=$HOME/MOAB
 DAGMC_INSTALL_DIR=$HOME/DAGMC
 set -ex
 
-echo 'export MOAB_INSTALL_DIR=$HOME/MOAB' >> ~/.bashrc 
-echo 'export DAGMC_INSTALL_DIR=$HOME/DAGMC' >> ~/.bashrc 
+echo "export MOAB_INSTALL_DIR=$HOME/MOAB" >> ~/.bashrc 
+echo "export DAGMC_INSTALL_DIR=$HOME/DAGMC" >> ~/.bashrc 
 # echo '$PATH:/openmc/build/bin/' >> ~/.bashrc 
 
 pip3 install cython
@@ -105,8 +105,8 @@ make -j install
 # python3 setup.py install --user
 
 #needs setting in bashrc
-echo 'export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
-echo 'export PATH=$PATH:$MOAB_INSTALL_DIR/bin' >> ~/.bashrc 
+echo "export LD_LIBRARY_PATH=$MOAB_INSTALL_DIR/lib:$LD_LIBRARY_PATH" >> ~/.bashrc
+echo "export PATH=$PATH:$MOAB_INSTALL_DIR/bin" >> ~/.bashrc 
 
 
 # DAGMC Install
@@ -122,7 +122,7 @@ cmake ../DAGMC -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$DAGMC_INSTALL_DIR -DMOAB
 make -j 4 install
 # rm -rf $HOME/DAGMC/dagmc
 #needs setting in bashrc
-echo 'export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH' >> ~/.bashrc 
+echo "export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH" >> ~/.bashrc 
 
 
 # OpenMC Install
@@ -151,14 +151,14 @@ python3 convert_nndc71.py
 
 
 OPENMC_CROSS_SECTIONS_NNDC=~/data/nndc-b7.1-hdf5/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS_NNDC=~/data/nndc-b7.1-hdf5/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS_NNDC=~/data/nndc-b7.1-hdf5/cross_sections.xml" >> ~/.bashrc
 OPENMC_CROSS_SECTIONS_TENDL=~/data/tendl-2017-hdf5/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS_TENDL=~/data/tendl-2019-hdf5/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS_TENDL=~/data/tendl-2019-hdf5/cross_sections.xml" >> ~/.bashrc
 OPENMC_CROSS_SECTIONS_FENDL=~/data/fendl-3.1d-hdf5/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS_FENDL=~/data/fendl-3.1d-hdf5/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS_FENDL=~/data/fendl-3.1d-hdf5/cross_sections.xml" >> ~/.bashrc
 
 OPENMC_CROSS_SECTIONS=~/data/tendl-2017-hdf5/cross_sections.xml
-echo 'export OPENMC_CROSS_SECTIONS=~/data/tendl-2019-hdf5/cross_sections.xml' >> ~/.bashrc
+echo "export OPENMC_CROSS_SECTIONS=~/data/tendl-2019-hdf5/cross_sections.xml" >> ~/.bashrc
 
 
 
