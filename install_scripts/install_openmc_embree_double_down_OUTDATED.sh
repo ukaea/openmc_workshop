@@ -151,7 +151,7 @@ export DAGMC_INSTALL_DIR=$HOME/DAGMC
 export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/opt/Trelis-16.5/bin/plugins/svalinn:$LD_LIBRARY_PATH
 
-# installs OpenMc from source
+# installs OpenMC from source
 cd /opt
 git clone --recurse-submodules https://github.com/openmc-dev/openmc.git
 sudo chmod -R 777 openmc
@@ -159,7 +159,7 @@ cd openmc
 mkdir build
 cd build
 cmake -Ddagmc=ON \
-    -DDAGMC_DIR=$HOME/DAGMC/build \
+    -DCMAKE_PREFIX_PATH=$HOME/DAGMC/ \
     -DHDF5_PREFER_PARALLEL=OFF .. 
 make -j"$compile_cores"
 sudo make -j"$compile_cores" install 
