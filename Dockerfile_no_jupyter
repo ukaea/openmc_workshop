@@ -3,6 +3,7 @@
 # It does not contain jupyter so that it can be built upon easily
 
 # build with the following command, replace the 50 cores with however many you would like to use
+# build from the main directory of the openmc_workshop repository
 # docker build -t ukaea/openmcworkshop --build-arg compile_cores=50 .
 
 # run with the following command
