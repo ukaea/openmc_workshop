@@ -1,3 +1,16 @@
+
+# This dockerfile builds an image containing OpenMC and its dependencies
+# It does not contain jupyter so that it can be built upon easily
+
+# build with the following command, replace the 50 cores with however many you would like to use
+# docker build -t ukaea/openmcworkshop --build-arg compile_cores=50 .
+
+# run with the following command
+# docker run -p 8888:8888 ukaea/openmcworkshop
+
+# test with the folowing command
+# docker run --rm ukaea/openmcworkshop pytest ../tests
+
 FROM continuumio/miniconda3
 
 ARG compile_cores=1
@@ -16,6 +29,7 @@ RUN apt-get --yes install libeigen3-dev \
 # libnetcdf-dev is needed to allow NETCDF on MOAB which helps with tet meshes in OpenMC
                           wget
 
+# installing cadquery
 RUN conda install -c conda-forge -c python python=3.7.8
 RUN conda install -c conda-forge -c cadquery cadquery=2
 # cadquery master don't appear to show the .solid in the notebook
