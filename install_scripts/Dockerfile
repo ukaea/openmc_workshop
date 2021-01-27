@@ -16,8 +16,6 @@ RUN apt-get --yes install libeigen3-dev \
 # libnetcdf-dev is needed to allow NETCDF on MOAB which helps with tet meshes in OpenMC
                           wget
 
-# installing cadquery and jupyter
-RUN conda install jupyter -y
 RUN conda install -c conda-forge -c python python=3.7.8
 RUN conda install -c conda-forge -c cadquery cadquery=2
 # cadquery master don't appear to show the .solid in the notebook
