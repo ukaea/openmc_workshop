@@ -109,7 +109,7 @@ cd pymoab
 # Clone and install Double-Down
 
 cd ~
-git clone https://github.com/pshriwise/double-down
+git clone https://github.com/pshriwise/double-down.git
 cd double-down
 mkdir build
 cd build
@@ -124,11 +124,17 @@ make -j4 install
 cd ~
 mkdir DAGMC
 cd DAGMC
-git clone -b develop https://github.com/svalinn/dagmc
+git clone -b develop https://github.com/svalinn/DAGMC.git
 mkdir build
 cd build
 # cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=~/DAGMC -DMOAB_DIR=/usr/local
-cmake ../dagmc -DBUILD_TALLY=ON -DCMAKE_INSTALL_PREFIX=$HOME/DAGMC -DMOAB_DIR=$HOME/MOAB
+cmake ../DAGMC -DBUILD_TALLY=ON \
+	-DCMAKE_INSTALL_PREFIX=$HOME/DAGMC \
+	-DMOAB_DIR=$HOME/MOAB \
+	-DDOUBLE_DOWN=ON \
+	-DCMAKE_PREFIX_PATH=$HOME/double-down/lib \
+	-DDOUBLE_DOWN_DIR=$HOME/double-down/
+	
 make -j4 install
 # rm -rf ~/DAGMC/dagmc ~/DAGMC/build   # don't know why these are deleted as need to point to build directory during OpenMC compile
 
@@ -141,7 +147,7 @@ sudo chmod -R 777 openmc
 cd /opt/openmc
 mkdir build
 cd build
-cmake -Doptimize=on -Ddagmc=ON -DDAGMC_DIR=$HOME/DAGMC/build -DHDF5_PREFER_PARALLEL=off ..
+cmake -Doptimize=on -Ddagmc=ON -DCMAKE_PREFIX_PATH=$HOME/DAGMC/build -DHDF5_PREFER_PARALLEL=off ..
 make -j4
 sudo make -j4 install
 cd ..

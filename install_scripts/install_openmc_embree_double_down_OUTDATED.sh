@@ -3,7 +3,6 @@
 
 
 sudo apt-get --yes update && sudo apt-get --yes upgrade 
-sudo apt-get update
 
 # Install dependencies from Debian package manager
 sudo apt-get install --yes wget \
@@ -136,27 +135,31 @@ make -j"$compile_cores" install
 cd ~
 mkdir DAGMC
 cd DAGMC
-git clone --single-branch --branch develop https://github.com/svalinn/dagmc
+git clone --single-branch --branch develop https://github.com/svalinn/DAGMC.git
 mkdir build
 cd build
-cmake ../dagmc -DBUILD_TALLY=ON \
+cmake ../DAGMC -DBUILD_TALLY=ON \
     -DCMAKE_INSTALL_PREFIX=$HOME/DAGMC \
-    -DMOAB_DIR=$HOME/MOAB  # this might need changing to /home/username/MOAB
+    -DMOAB_DIR=$HOME/MOAB \
+    -DDOUBLE_DOWN=ON \
+    -DCMAKE_PREFIX_PATH=$HOME/double-down/lib \
+    -DDOUBLE_DOWN_DIR=$HOME/double-down/
+    
 make -j"$compile_cores" install
 
 export DAGMC_INSTALL_DIR=$HOME/DAGMC
 export LD_LIBRARY_PATH=$DAGMC_INSTALL_DIR/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/opt/Trelis-16.5/bin/plugins/svalinn:$LD_LIBRARY_PATH
 
-# installs OpenMc from source
+# installs OpenMC from source
 cd /opt
-git clone --single-branch --branch develop https://github.com/openmc-dev/openmc.git
+git clone --recurse-submodules https://github.com/openmc-dev/openmc.git
 sudo chmod -R 777 openmc
 cd openmc
 mkdir build
 cd build
 cmake -Ddagmc=ON \
-    -DDAGMC_DIR=$HOME/DAGMC/build \
+    -DCMAKE_PREFIX_PATH=$HOME/DAGMC/ \
     -DHDF5_PREFER_PARALLEL=OFF .. 
 make -j"$compile_cores"
 sudo make -j"$compile_cores" install 
@@ -175,6 +178,8 @@ sudo make install
 
 # clone and download nuclear data
 git clone --single-branch --branch master https://github.com/openmc-dev/data.git
-python3 data/convert_nndc71.py
-python3 data/convert_tendl.py
-python3 data/data/combine_libraries.py -l data/nndc-b7.1-hdf5/cross_sections.xml data/tendl-2019-hdf5/cross_sections.xml -o data/cross_sections.xml
+python data/convert_nndc71.py
+python data/convert_tendl.py
+python data/data/combine_libraries.py -l data/nndc-b7.1-hdf5/cross_sections.xml data/tendl-2019-hdf5/cross_sections.xml -o data/cross_sections.xml
+OPENMC_CROSS_SECTIONS=~/data/cross_sections.xml
+echo "export OPENMC_CROSS_SECTIONS=~/data/cross_sections.xml" >> ~/.bashrc

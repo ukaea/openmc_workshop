@@ -50,7 +50,7 @@ RUN git clone https://github.com/njoy/NJOY2016
 
 RUN mkdir DAGMC && \
     cd DAGMC && \
-    git clone --single-branch --branch develop https://github.com/svalinn/dagmc
+    git clone --single-branch --branch develop https://github.com/svalinn/DAGMC.git
 
 RUN mkdir MOAB && \
     cd MOAB && \
@@ -150,20 +150,23 @@ RUN echo installing dagmc && \
     # git clone --single-branch --branch develop https://github.com/svalinn/dagmc && \
     mkdir build && \
     cd build && \
-    cmake ../dagmc -DBUILD_TALLY=ON \
+    cmake ../DAGMC -DBUILD_TALLY=ON \
         -DCMAKE_INSTALL_PREFIX=/DAGMC \
         -DMOAB_DIR=/MOAB && \
+        -DDOUBLE_DOWN=ON \
+        -DCMAKE_PREFIX_PATH=/double-down/lib \
+        -DDOUBLE_DOWN_DIR=/double-down/
     make -j"$compile_cores" install && \
-    rm -rf /DAGMC/dagmc /DAGMC/build
+    rm -rf /DAGMC/DAGMC /DAGMC/build
 
 
 # installs OpenMc from source
 RUN cd /opt && \
-    git clone --single-branch --branch develop https://github.com/openmc-dev/openmc.git && \
+    git clone --single-branch --branch develop --recurse-submodules https://github.com/openmc-dev/openmc.git && \
     cd openmc && \
     mkdir build && \
     cd build && \
-    cmake -Doptimize=on -Ddagmc=ON -DDAGMC_ROOT=$DAGMC_INSTALL_DIR -DHDF5_PREFER_PARALLEL=OFF ..  && \
+    cmake -Doptimize=on -Ddagmc=ON -DCMAKE_PREFIX_PATH=/DAGMC -DHDF5_PREFER_PARALLEL=OFF ..  && \
     make -j"$compile_cores" && \
     make -j"$compile_cores" install && \ 
     cd /opt/openmc/ && \
@@ -179,20 +182,20 @@ RUN echo installing NJOY2016 && \
     make 2>/dev/null && \
     sudo make install
 
-ENV LD_LIBRARY_PATH=$HOME/MOAB/lib:$HOME/DAGMC/lib
-ENV PATH=$PATH:$HOME/NJOY2016/build
+ENV LD_LIBRARY_PATH=/MOAB/lib:/DAGMC/lib
+ENV PATH=$PATH:/MOAB/bin
 
 
 # install nuclear data
 RUN git clone https://github.com/openmc-dev/data.git
-RUN python3 data/convert_nndc71.py --cleanup && \
+RUN python data/convert_nndc71.py --cleanup && \
     rm -rf nndc-b7.1-endf  && \
     rm -rf nndc-b7.1-ace/  && \
     rm -rf nndc-b7.1-download
-RUN python3 data/convert_tendl.py --cleanup && \
+RUN python data/convert_tendl.py --cleanup && \
     rm -rf tendl-2019-ace/ && \
     rm -rf tendl-2019-download
-RUN python3 data/combine_libraries.py -l nndc-b7.1-hdf5/cross_sections.xml tendl-2019-hdf5/cross_sections.xml -o cross_sections.xml
+RUN python data/combine_libraries.py -l nndc-b7.1-hdf5/cross_sections.xml tendl-2019-hdf5/cross_sections.xml -o cross_sections.xml
 
 RUN wget https://github.com/mit-crpg/WMP_Library/releases/download/v1.1/WMP_Library_v1.1.tar.gz
 RUN tar -xf WMP_Library_v1.1.tar.gz -C /
