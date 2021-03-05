@@ -26,10 +26,9 @@ RUN apt-get --yes install libeigen3-dev \
                           wget
 
 # installing cadquery and jupyter
-RUN conda install -c conda-forge -c python python=3.8
-RUN conda install -c conda-forge -c cadquery cadquery=2.1
-RUN pip install jupyter-cadquery==2.0.0-rc1
-# cadquery master don't appear to show the .solid for compounts in the notebook
+RUN conda install -c conda-forge -c python python=3.8 && \
+    conda install -c conda-forge -c cadquery cadquery=2.1 && \
+    pip install jupyter-cadquery==2.0.0-rc1
 
 
 # Python libraries used in the workshop
@@ -50,7 +49,7 @@ RUN pip install cmake\
                 pytest-cov \
                 holoviews \
                 ipywidgets \
-                svalinn-tools \
+                # svalinn-tools \ not python 3 at the moment
 # cython is needed for moab
                 cython \
                 paramak
@@ -131,15 +130,18 @@ ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/MOAB/lib
 
 
 # Clone and install Double-Down
-RUN git clone --single-branch --branch main https://github.com/pshriwise/double-down.git && \
+RUN mkdir double-down && \
     cd double-down && \
+    git clone --single-branch --branch main https://github.com/pshriwise/double-down.git && \
+    # cd double-down && \
     mkdir build && \
     cd build && \
-    cmake .. -DMOAB_DIR=/MOAB \
-             -DCMAKE_INSTALL_PREFIX=.. \
-             -DEMBREE_DIR=/embree && \
+    cmake ../double-down -DMOAB_DIR=/MOAB \
+                         -DCMAKE_INSTALL_PREFIX=/double-down \
+                         -DEMBREE_DIR=/embree && \
     make -j"$compile_cores" && \
-    make -j"$compile_cores" install
+    make -j"$compile_cores" install && \
+    rm -rf /double-down/build /double-down/double-down 
 
 
 # DAGMC install from source
@@ -178,9 +180,11 @@ RUN cd /opt && \
     pip install .
 
 #  NJOY2016 install from source
-RUN mkdir njoy && cd njoy && \
+RUN mkdir njoy && \
+    cd njoy && \
     git clone --single-branch --branch master https://github.com/njoy/NJOY2016.git && \
-    mkdir build && cd build && \
+    mkdir build && \
+    cd build && \
     cmake -Dstatic=on ../NJOY2016 && \
     make 2>/dev/null && \
     rm -rf /njoy/NJOY2016
@@ -189,15 +193,16 @@ ENV PATH=$PATH:/njoy/build
 
 
 # install nuclear data
-RUN wget https://github.com/mit-crpg/WMP_Library/releases/download/v1.1/WMP_Library_v1.1.tar.gz
-RUN tar -xf WMP_Library_v1.1.tar.gz -C /
+RUN wget https://github.com/mit-crpg/WMP_Library/releases/download/v1.1/WMP_Library_v1.1.tar.gz && \
+    tar -xf WMP_Library_v1.1.tar.gz -C /  && \
+    rm WMP_Library_v1.1.tar.gz
 
 ENV OPENMC_CROSS_SECTIONS=/cross_sections.xml
 
 COPY scripts/delete_nuclear_data_not_used_in_cross_section_xml.py .
 
-RUN git clone https://github.com/openmc-dev/data.git
-RUN python data/convert_nndc71.py --cleanup && \
+RUN git clone https://github.com/openmc-dev/data.git && \
+    python data/convert_nndc71.py --cleanup && \
     rm -rf nndc-b7.1-endf  && \
     rm -rf nndc-b7.1-ace/  && \
     rm -rf nndc-b7.1-download && \
