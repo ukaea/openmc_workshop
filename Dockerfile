@@ -58,10 +58,9 @@ RUN apt-get --yes install libeigen3-dev \
 
 
 # installing cadquery and jupyter
-RUN conda install jupyter -y && \
-    conda install -c conda-forge -c python python=3.7.8 && \
-    conda install -c conda-forge -c cadquery cadquery=2
-# cadquery master dose not appear to show the .solid in the notebook
+RUN conda install -c conda-forge -c python python=3.8 && \
+    conda install -c conda-forge -c cadquery cadquery=2.1 && \
+    pip install jupyter-cadquery==2.0.0-rc1
 
 
 # Python libraries used in the workshop
@@ -221,8 +220,9 @@ COPY tasks tasks/
 
 WORKDIR /tasks
 
-#this sets the port, gcr looks for this varible
+#this sets the port, gcr looks for this ENV varible
 ENV PORT 8888
+EXPOSE 8888
 
 # could switch to --ip='*'
-CMD ["jupyter", "notebook", "--notebook-dir=/tasks", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
+CMD ["jupyter", "lab", "--notebook-dir=/tasks", "--port=8888", "--no-browser", "--ip=0.0.0.0", "--allow-root"]
